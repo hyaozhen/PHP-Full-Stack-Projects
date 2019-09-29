@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title> Calculator </title>
+
+</head>
+<body>
+	<p>
+		<label for="num1">First Number:</label>
+		<input type="number" name="num1" id="num1" required/>
+<!-- name id difference -->
+	</p>
+	<p>
+		<label for="num2">Second Number:</label>
+		<input type="number" name="num2" id="num2" required/>
+	</p>
+	<p>
+		<strong>Operation:</strong>
+		<input type="radio" name="operation" value="+" id="sum"/><label for="sum">+</label> &nbsp;
+		<input type="radio" name="operation" value="-" id="subtract"/><label for="subtract">-</label> &nbsp;
+		<input type="radio" name="operation" value="*" id="multiply"/><label for="multiply">*</label> &nbsp;
+		<input type="radio" name="operation" value="/" id="divide"/><label for="divide">/</label>
+	</p>
+	<p>
+		Result: <output name='result' id = 'result'> </output> 
+	</p>
+
+<script src="html_cal.js"></script>
+</body>
+</html>

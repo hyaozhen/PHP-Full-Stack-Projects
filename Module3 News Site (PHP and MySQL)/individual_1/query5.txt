@@ -1,0 +1,20 @@
+mysql> select students.id, students.email_address ,avg(grades.grade) as ave_grades from students join grades on (students.id = grades.student_id) where first_name = 'Jack' and last_name = 'Johnson' group by students.id;                     
++-----+------------------------------+------------+
+| id  | email_address                | ave_grades |
++-----+------------------------------+------------+
+| 257 | jjmuzak@brushfirerecords.com |  96.125000 |
++-----+------------------------------+------------+
+1 row in set (0.00 sec)
+
+
+OR SIMPLER
+
+mysql> select students.id, students.email_address ,avg(grades.grade) as ave_grades from students join grades on (students.id = grades.student_id) where first_name = 'Jack' and last_name = 'Johnson';
++-----+------------------------------+------------+
+| id  | email_address                | ave_grades |
++-----+------------------------------+------------+
+| 257 | jjmuzak@brushfirerecords.com |  96.125000 |
++-----+------------------------------+------------+
+1 row in set (0.00 sec)
+
+(But this will be wrong when there are another Jack Johnson)

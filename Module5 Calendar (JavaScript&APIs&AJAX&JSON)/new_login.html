@@ -1,0 +1,504 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href= 'sitestyle.css'  type='text/css'  rel='stylesheet'>
+<title> Login Page </title></head>
+<body>
+
+
+<p class="ft3" lang="en" id=words></p>
+<p class="ft4" lang="en" id="old"></p>
+<p class="ft4" lang="en" id="new"></p>
+<p class="ft4" lang="en" id="reset_btn"></p>
+
+<hr>
+
+	<p class="ft3" lang="en">Sign in to use your calendar</p>
+	<div class="box" id = "box1">
+	<div id = "avatar"></div>
+	<!-- <img src="hello" width='30' class='center' id="avatar" alt=""/> -->
+	<p class="ft4" lang="en" id="curt_user">Please Sign in</p>
+	<p class="ft1" lang="en">
+	<input type="text" id="username" placeholder="Username" /> <!-- referenced from: https://www.w3schools.com/tags/att_input_placeholder.asp -->
+	<input type="password" id="password" placeholder="Password" />
+	</p>
+	<p class="ft4" lang="en">
+		<button id="login_btn">Sign In</button>
+		<!-- <button type="reset">Reset</button><br> -->
+		<button id="logout_btn">Logout</button>
+		<button id="user_delete">Delete Your Account</button>
+	</p>
+	</div>
+
+<hr>
+
+	<p class="ft3" lang="en">Sign up to create your account</p>
+
+	<div class="box" id = "box2">
+	<p class="ft1" lang="en">
+	<input type="text" id="newuser" placeholder="Your email address" />
+	<input type="password" id="newpassword" placeholder="Password" />
+	<!-- referenced from: https://www.w3schools.com/htmL/html_form_input_types.asp -->
+	<input type="date" id="birthday" min="1901-01-01" max="2101-12-31" required/>
+	<input type="text" id="pics_url" placeholder="Avatar's URL" />
+	</p>
+	<p class="ft4" lang="en">
+		<button id="signup_btn">Sign Up</button>
+	</p>
+	</div>
+
+
+<hr>
+<p class="ft3" lang="en">Add your events</p>
+
+<div class="box" id = "box3">
+<p class="ft4" lang="en" id="add_event">Sign in to add events</p>
+<p class="ft4" lang="en" id="start_date"></p>
+<p class="ft4" lang="en" id="time"></p>
+<p class="ft4" lang="en" id="event_btn"></p>
+<p class="ft4" lang="en" id="event_delete"></p>
+<p class="ft4" lang="en" id="event_id"></p>
+</div>
+
+<hr>
+
+<p class="ft3" lang="en">Calendar</p>
+<p class="ft4" lang="en" id="curt_date"></p>
+<p class="ft4"><button class="ft10" lang="en" id="prev_month_btn">Previous Month</button><button class="ft11" lang="en" id="next_month_btn">Next Month</button></p>
+
+<!-- referenced from: https://www.w3schools.com/css/css_table.asp -->
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 15px;
+}
+</style>
+
+<!-- referenced from: https://www.w3schools.com/html/html_tables.asp -->
+<table id='calendar_display' style="width:100%"></table>
+
+
+
+
+
+<hr>
+<script> //Sign In
+var pics;
+//Referenced from: https://www.w3schools.com/php/php_ajax_database.asp
+function login() {
+	//referenced from: https://www.w3schools.com/jsref/prop_text_value.asp
+  var username = document.getElementById("username").value
+  var password = document.getElementById("password").value
+  //referenced from: https://www.w3schools.com/jsref/jsref_encodeURIComponent.asp
+  var dataString = "username="+encodeURIComponent(username)+"&password="+encodeURIComponent(password);
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("POST","login.php",true);
+  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xmlhttp.addEventListener("load", function(event) {
+  		var returnData = JSON.parse(event.target.responseText)
+  		if (returnData.success){
+  			alert("Successful");
+  			alert("user_id: "+readCookie('user_id'));
+  			updateCalendar();
+  			after_login();
+  		}else{
+  			alert("Failed");
+  		}
+  })
+  xmlhttp.send(dataString);
+}
+
+//show user's avatar
+function pics() {
+  var user_id = readCookie('user_id');
+  var dataString = "user_id="+encodeURIComponent(user_id);
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("POST","pics.php",true);
+  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xmlhttp.addEventListener("load", function(event) {
+  		//document.write(event.target.responseText);
+  		var returnData = JSON.parse(event.target.responseText)
+  		if (returnData.success){
+  			var pics = returnData.pics.replace("'\'", "");
+  			// pics = old_pics;
+  			//alert(pics);
+  			document.getElementById("avatar").innerHTML = "<img src="+pics+" width='30' class='center' id='avatar' alt=''>";
+  		}else{
+  			alert("Failed");
+  		}
+  })
+  xmlhttp.send(dataString);
+}
+
+
+
+ //Sign Up
+//Referenced from: https://www.w3schools.com/php/php_ajax_database.asp
+function signup() {
+  var newuser = document.getElementById("newuser").value
+  var newpassword = document.getElementById("newpassword").value
+  var pics_url = document.getElementById("pics_url").value
+  var birthday = document.getElementById("birthday").value
+  var dataString = "newuser="+encodeURIComponent(newuser)+"&newpassword="+encodeURIComponent(newpassword)+"&pics_url="+encodeURIComponent(pics_url)+"&birthday="+encodeURIComponent(birthday);
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("POST","signup.php",true);
+  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xmlhttp.addEventListener("load", function(event) {
+  		//console.log(event.target.responseText)
+  		var returnData = JSON.parse(event.target.responseText)
+  		if (returnData.success){
+  			alert("Successful");
+  		}else{
+  			alert("Failed");
+  		}
+  })
+  xmlhttp.send(dataString);
+}
+
+ //Logout
+//Referenced from: https://www.w3schools.com/js/js_cookies.asp
+function delete_cookie() {
+	if (readCookie('user_id')==null){
+	alert("Log in please");
+	}else{
+  document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  if (readCookie('user_id')==null){
+	alert("Logged out");
+	}
+	document.getElementById("add_event").innerHTML = "Sign in to add events";
+	//Referenced from: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
+	document.getElementById("start_date").innerHTML = '';
+	//Referenced from: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
+	document.getElementById("time").innerHTML = '';
+	document.getElementById("event_btn").innerHTML = "";
+	document.getElementById("event_delete").innerHTML = "";
+	document.getElementById("curt_user").innerHTML = "Please Sign in";
+	document.getElementById("words").innerHTML = "";
+	document.getElementById("old").innerHTML = "";
+	document.getElementById("new").innerHTML = "";
+	document.getElementById("reset_btn").innerHTML = "";
+	document.getElementById("avatar").src = "";
+	updateCalendar();
+}
+}
+
+ //Add/Edit Event
+//Referenced from: https://www.w3schools.com/php/php_ajax_database.asp
+function add_event() {
+  var event_area = document.getElementById("event_area").value;
+  var date_area = document.getElementById("date_area").value;
+  var time_area = document.getElementById("time_area").value;
+  var event_id = document.getElementById("event_id").value;
+  var user_id = readCookie('user_id');
+  var CSRF = readCookie('CSRF');
+  if (event_id != null){
+  var dataString = "event_area="+encodeURIComponent(event_area)+"&date_area="+encodeURIComponent(date_area)+"&time_area="+encodeURIComponent(time_area)+"&user_id="+encodeURIComponent(user_id)+"&event_id="+encodeURIComponent(event_id)+"&CSRF="+encodeURIComponent(CSRF);
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("POST","update_event.php",true);
+  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xmlhttp.addEventListener("load", function(event) {
+  		var returnData = JSON.parse(event.target.responseText)
+  		if (returnData.success){
+  			alert("Event successful edited");
+  		}else{
+  			alert("Failed");
+  		}
+  })
+  xmlhttp.send(dataString);
+  }else{
+  var dataString = "event_area="+encodeURIComponent(event_area)+"&date_area="+encodeURIComponent(date_area)+"&time_area="+encodeURIComponent(time_area)+"&user_id="+encodeURIComponent(user_id)+"&CSRF="+encodeURIComponent(CSRF);
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("POST","add_event.php",true);
+  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xmlhttp.addEventListener("load", function(event) {
+  		var returnData = JSON.parse(event.target.responseText)
+  		if (returnData.success){
+  			alert("Event successful added");
+  		}else{
+  			alert("Failed");
+  		}
+  })
+  xmlhttp.send(dataString);
+	}
+after_login();
+updateCalendar();
+document.getElementById("event_id").value = null;}
+
+
+ //delete event
+//Referenced from: https://www.w3schools.com/php/php_ajax_database.asp
+function delete_event() {
+  var event_id = document.getElementById("event_id").value;
+  var user_id = readCookie('user_id');
+  var CSRF = readCookie('CSRF');
+  var dataString = "event_id="+encodeURIComponent(event_id)+"&user_id="+encodeURIComponent(user_id)+"&CSRF="+encodeURIComponent(CSRF);
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("POST","delete_event.php",true);
+  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xmlhttp.addEventListener("load", function(event) {
+  		var returnData = JSON.parse(event.target.responseText)
+  		if (returnData.success){
+  			alert("Event successful deleted");
+  		}else{
+  			alert("Failed");
+  		}
+  })
+  xmlhttp.send(dataString);
+after_login();
+updateCalendar();
+document.getElementById("event_id").value = null;}
+
+//delete user
+//Referenced from: https://www.w3schools.com/php/php_ajax_database.asp
+function delete_user() {
+	if (readCookie('user_id')==null){
+	alert("Log in please");
+	}else{
+  var user_id = readCookie('user_id');
+  var CSRF = readCookie('CSRF');
+  delete_cookie();
+  var dataString = "user_id="+encodeURIComponent(user_id)+"&CSRF="+encodeURIComponent(CSRF);
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("POST","delete_user.php",true);
+  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xmlhttp.addEventListener("load", function(event) {
+  		var returnData = JSON.parse(event.target.responseText)
+  		if (returnData.success){
+  			alert("User successful deleted and you are logged out");
+  		}else{
+  			alert("Failed");
+  		}
+  })
+  xmlhttp.send(dataString);
+updateCalendar();}
+}
+
+//reset password
+//Referenced from: https://www.w3schools.com/php/php_ajax_database.asp
+function pass_reset() {
+  var user_id = readCookie('user_id');
+  var CSRF = readCookie('CSRF');
+  var old_password = document.getElementById("old_password").value;
+  var new_password = document.getElementById("new_password").value;
+  delete_cookie();
+  var dataString = "user_id="+encodeURIComponent(user_id)+"&old_password="+encodeURIComponent(old_password)+"&new_password="+encodeURIComponent(new_password)+"&CSRF="+encodeURIComponent(CSRF);
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("POST","pass_reset.php",true);
+  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xmlhttp.addEventListener("load", function(event) {
+  //alert(event.target.responseText)
+  		var returnData = JSON.parse(event.target.responseText)
+  		if (returnData.success){
+  			alert("Password is reset and please re-login");
+  		}else{
+  			alert("Failed");
+  		}
+  })
+  xmlhttp.send(dataString);
+updateCalendar();}
+
+//Referenced from: http://www.satya-weblog.com/2007/05/php-and-javascript-cookie.html
+function readCookie(name) {
+	var cookiename = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++)
+	{
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(cookiename) == 0) return c.substring(cookiename.length,c.length);
+	}
+	return null;
+}
+
+
+function after_login(){
+	//Referenced from: //Referenced from: https://stackoverflow.com/questions/40858456/how-to-display-a-javascript-var-in-html-body
+	document.getElementById("add_event").innerHTML = "<textarea rows='2' cols='30' id = 'event_area' placeholder='Add event here'></textarea>";
+	//Referenced from: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
+	document.getElementById("start_date").innerHTML = '<input type="date" id="date_area" min="2001-01-01" max="2101-12-31" required/>';
+	//Referenced from: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
+	document.getElementById("time").innerHTML = '<input type="time" id="time_area" placeholder="Start Time" required/>';
+	document.getElementById("event_btn").innerHTML = "<button id='event_btn'>Add/Edit event</button>";
+	document.getElementById("event_delete").innerHTML = "<button id='event_delete'>Delete event</button>";
+	document.getElementById("event_id").innerHTML = '<input type="hidden" id="event_id"/>';
+	
+	document.getElementById("words").innerHTML = '<h2><p class="ft3" lang="en">Reset Your Password</p></h2>';
+	document.getElementById("old").innerHTML = '<input type="text" id="old_password" placeholder="Old Password" required/>';
+	document.getElementById("new").innerHTML = '<input type="password" id="new_password" placeholder="New Password" required/>';
+	document.getElementById("reset_btn").innerHTML = "<button id='reset_btn'>Confirm</button>";
+	
+	pics();
+	var user_id = readCookie('user_id');
+	document.getElementById("curt_user").innerHTML = "Current User's id: "+user_id;
+	}
+if (readCookie('user_id')!= null){
+	after_login();
+	pics();
+ }
+</script>
+
+
+<script src="http://classes.engineering.wustl.edu/cse330/content/calendar.min.js"></script>
+<script>
+var today =new Date() //Referenced from: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
+var currentMonth = new Month(today.getFullYear(), today.getMonth()); //
+
+
+updateCalendar();
+
+
+// Change the month when the "Previous Month" button is pressed
+document.getElementById("prev_month_btn").addEventListener("click", function(e){
+	e.preventDefault();
+	currentMonth = currentMonth.prevMonth(); // Previous month would be currentMonth.prevMonth()
+	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
+
+}, false);
+
+// Change the month when the "Next Month" button is pressed
+document.getElementById("next_month_btn").addEventListener("click", function(e){
+	e.preventDefault();
+	currentMonth = currentMonth.nextMonth(); // Previous month would be currentMonth.prevMonth()
+	updateCalendar(); // Whenever the month is updated, we'll need to re-render the calendar in HTML
+
+}, false);
+
+
+function updateCalendar(){
+	document.getElementById("curt_date").innerHTML=Number(currentMonth.month+1)+" / "+currentMonth.year;
+	document.getElementById("calendar_display").innerHTML="<tr><th>Sunday</th><th>Monday</th> <th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th></tr>";
+	
+	if (readCookie('user_id') != null){
+	var user_id = "user_id="+encodeURIComponent(readCookie('user_id'));
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.open("POST", "read_edit_event.php", true);
+	xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xmlHttp.addEventListener("load", ajaxCallback, false);
+	xmlHttp.send(user_id);
+ 	}else{
+ 	
+ 	var weeks = currentMonth.getWeeks();
+	var month = currentMonth.month;
+	var week_counter=0;
+	var day_counter=1;
+	for(var w in weeks){
+		var days = weeks[w].getDates();
+		document.getElementById("calendar_display").innerHTML += "<tr name=\"week\"></tr>" //Referenced from: TA William
+		
+
+		for(var d in days){
+			if (days[d].getMonth()==month){
+
+			var weeks_1 = document.getElementsByName("week");
+
+			weeks_1[week_counter].innerHTML += "<td>"+day_counter+"</td>" //Write into <tr name=\"week\"></tr>, Referenced from: TA William
+
+			day_counter += 1
+			}else{
+			var weeks_1 = document.getElementsByName("week");
+            weeks_1[week_counter].innerHTML += "<td></td>"
+         		}
+			}
+		week_counter += 1;
+		}
+ 	}
+ }	
+ 	
+var jsondata;
+function ajaxCallback(e){
+	e.preventDefault();
+	jsondata = JSON.parse(event.target.responseText);
+	var e_year = [];
+	var e_month = [];
+	var e_day = [];
+	var e_title = [];
+	var e_event_id = [];
+	var i;
+	for (i = 0; i < jsondata.length; i++){
+		//referenced from: https://www.w3schools.com/jsref/jsref_push.asp
+		e_year.push(jsondata[i].date.slice(0, 4));
+		e_month.push(jsondata[i].date.slice(6, 7)-1);
+		e_day.push(jsondata[i].date.slice(8));
+		e_title.push(jsondata[i].event);
+		e_event_id.push(jsondata[i].event_id);
+	}
+	var weeks = currentMonth.getWeeks();
+	var month = currentMonth.month;
+	var week_counter=0;
+	var day_counter=1;
+	for(var w in weeks){
+		var days = weeks[w].getDates();
+		document.getElementById("calendar_display").innerHTML += "<tr name=\"week\"></tr>" //Referenced from: TA William
+		
+		for(var d in days){
+			if (days[d].getMonth()==month){
+				var weeks_1 = document.getElementsByName("week");
+				var eventCache = [];
+				weeks_1[week_counter].innerHTML += "<td name=\"day\">"+day_counter+"<br></td>"
+				var days_1 = document.getElementsByName("day");
+				for (i = 0; i < jsondata.length; i++){
+					if (e_year[i]==days[d].getFullYear() && e_month[i] == month && e_day[i]==day_counter){
+					    day_counter1 = day_counter - 1;
+					    
+						days_1[day_counter1].innerHTML += "<button id=\""+i+"\">"+e_title[i]+"</button><br>"	
+					}
+				}
+					day_counter += 1
+			}else{
+				var weeks_1 = document.getElementsByName("week");
+            	weeks_1[week_counter].innerHTML += "<td></td>"
+         	}
+		}
+		week_counter += 1;
+	}
+	for(i=0; i<jsondata.length; i++){
+		document.getElementById(String(i)).addEventListener("click", show_edit, false); 
+	}
+}
+
+
+function show_edit(){
+var evt_id = event.target.id //Referenced from: https://segmentfault.com/q/1010000004662223
+var this_event = jsondata[evt_id];
+document.getElementById("event_area").value = this_event.event;
+document.getElementById("date_area").value = this_event.date;
+document.getElementById("time_area").value = this_event.time;
+document.getElementById("event_id").value = this_event.event_id;
+var user_id = readCookie('user_id');
+
+}
+
+
+</script>
+
+<script>
+
+document.getElementById("login_btn").addEventListener("click", login, false);
+document.getElementById("signup_btn").addEventListener("click", signup, false);
+document.getElementById("logout_btn").onclick = delete_cookie;
+document.getElementById("event_btn").addEventListener("click", add_event, false);
+document.getElementById("event_delete").addEventListener("click", delete_event, false);
+document.getElementById("user_delete").addEventListener("click", delete_user, false);
+document.getElementById("reset_btn").addEventListener("click", pass_reset, false);
+</script>
+
+
+
+	
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

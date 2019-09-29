@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title> Weather Widget </title></head>
+<body>
+<link href= 'weather.css'  type='text/css'  rel='stylesheet'>
+
+<script>
+function fetchWeather(){
+
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.open("POST", "https://classes.engineering.wustl.edu/cse330/content/weather_json.php", true);
+	xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xmlHttp.addEventListener("load", ajaxCallback, false);
+	xmlHttp.send(null);
+	
+
+}
+function ajaxCallback(event){
+	var jsondata = JSON.parse(event.target.responseText);
+	//Referenced from: //Referenced from: https://stackoverflow.com/questions/40858456/how-to-display-a-javascript-var-in-html-body
+	document.getElementById("cur_temp").innerHTML = jsondata.current.temp;
+	document.getElementById("cur_hmy").innerHTML = jsondata.atmosphere.humidity;
+	document.getElementById("city").innerHTML = jsondata.location.city;
+	document.getElementById("state").innerHTML = jsondata.location.state;
+	//Referenced from: https://stackoverflow.com/questions/767143/variable-for-img-src
+	document.getElementById("tmw_code").src = 'http://us.yimg.com/i/us/nws/weather/gr/'+jsondata.tomorrow.code+'ds.png';
+	document.getElementById("aft_code").src = 'http://us.yimg.com/i/us/nws/weather/gr/'+jsondata.dayafter.code+'ds.png';
+}
+
+document.addEventListener("DOMContentLoaded", fetchWeather, false);
+
+
+</script>
+
+<div class="weather" id="weatherWidget">
+<!--	Referenced from: https://stackoverflow.com/questions/40858456/how-to-display-a-javascript-var-in-html-body-->
+	<div class="weather-loc"><strong><span id="city"></strong></span> <span id="state"></span></div>
+	<div class="weather-humidity"><span id="cur_hmy"></span></div>
+	<div class="weather-temp"><span id="cur_temp"></span></div>
+<!--	Referenced from: https://stackoverflow.com/questions/767143/variable-for-img-src-->
+	<img class="weather-tomorrow" id="tmw_code"/>
+	<img class="weather-dayaftertomorrow" id="aft_code"/>
+	<button id="refresh">Refresh</button>
+</div>
+<script>
+document.getElementById("refresh").addEventListener("click", fetchWeather, false)
+</script>
+</body>
+</html>

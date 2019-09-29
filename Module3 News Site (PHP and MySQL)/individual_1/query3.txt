@@ -1,0 +1,9 @@
+mysql> select students.first_name, students.last_name, grades.student_id, grades.grade from students join grades on (students.id = grades.student_id) where grades.school_code='E' && grades.dept_id=81 && grades.course_code='330S';
++------------+-----------+------------+--------+
+| first_name | last_name | student_id | grade  |
++------------+-----------+------------+--------+
+| Ben        | Harper    |         88 |  35.50 |
+| Matt       | Freeman   |        202 | 100.00 |
+| Marc       | Roberge   |        115 |  75.00 |
++------------+-----------+------------+--------+
+3 rows in set (0.00 sec)

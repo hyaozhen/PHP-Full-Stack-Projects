@@ -1,0 +1,18 @@
+			p.ft1
+		{
+			text-align: center; color: #9370DB; font:italic bold 30px Georgia,serif;
+		}
+			p.ft2
+		{
+			text-align: center; color: #9370DB; font:italic bold 20px Monospace;
+		}
+/* 
+
+			body {background="background.png"; font-family: Georgia;}
+			.center{
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			}
+		
+ */

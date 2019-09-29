@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title> Calculator </title></head>
+<body>
+<form action="html_cal.php" method="POST">
+	<p>
+		<label for="num_1">First Number:</label>
+		<input type="text" name="num1" id="num_1" required/>
+	</p>
+	<p>
+		<label for="num_2">Second Number:</label>
+		<input type="text" name="num2" id="num_2" required/>
+	</p>
+	<p>
+		<strong>Operation:</strong>
+		<input type="radio" name="operation" value="+" id="sum"/><label for="sum">+</label> &nbsp;
+		<input type="radio" name="operation" value="-" id="subtract"/><label for="subtract">-</label> &nbsp;
+		<input type="radio" name="operation" value="*" id="multiply"/><label for="multiply">*</label> &nbsp;
+		<input type="radio" name="operation" value="/" id="divide"/><label for="divide">/</label>;
+	</p>
+	<p>
+		<input type="submit" value="Submit"/>
+		<input type="reset"/>
+</form>
+</body>
+</html>

@@ -1,0 +1,58 @@
+mysql> select name from courses where school_code = 'L';
++-----------------------------------------------------------------------------------------------------+
+| name                                                                                                |
++-----------------------------------------------------------------------------------------------------+
+| Introduction to Asian Art                                                                           |
+| Images of East Asia: Utopias of the Mind: Poetry, Painting and Meditation in East Asian Traditions  |
+| The Arts In Japanese Society                                                                        |
+| Images of East Asia: Poetry, Painting, and Meditation in East Asian Traditions                      |
+| General Chemistry I                                                                                 |
+| General Chemistry II                                                                                |
+| Topics in General Chemistry                                                                         |
+| General Chemistry Laboratory I                                                                      |
+| General Chemistry Laboratory II                                                                     |
+| Organic Chemistry I                                                                                 |
+| Organic Chemistry II                                                                                |
+| Organic Chemistry Laboratory I                                                                      |
+| Introduction to Microeconomics                                                                      |
+| Introduction to Macroeconomics                                                                      |
+| Introduction to Econometrics                                                                        |
+| The American School                                                                                 |
+| Education and Psychology of Exceptional Children                                                    |
+| Historical Social Content of the American School                                                    |
+| Fiction Writing                                                                                     |
+| Argumentation                                                                                       |
+| Topics in English and American Literature: From Fable to Film                                       |
+| Topics in Literature: Banned Books: From Huckleberry Finn to Harry Potter                           |
+| Improvisation                                                                                       |
+| Acting I                                                                                            |
+| Geology of National Parks                                                                           |
+| The Solar System                                                                                    |
+| Introduction to Statistics                                                                          |
+| Calculus I                                                                                          |
+| Calculus II                                                                                         |
+| Differential Equations                                                                              |
+| Finite Mathematics: Number Theory, Combinatorics, and Graphs                                        |
+| Elementary Probability and Statistics                                                               |
+| Calculus III                                                                                        |
+| Matrix Algebra                                                                                      |
+| Introduction to Dance as a Contemporary Art Form                                                    |
+| Yoga and Relaxation Techniques                                                                      |
+| Tutorial                                                                                            |
+| Elementary French I                                                                                 |
+| Elementary French II                                                                                |
+| Intensive Translation for Graduate Students I                                                       |
+| Intensive Translation for Graduate Students II                                                      |
+| Introduction to Problem-Based Learning in Biology                                                   |
+| The Biology of Health                                                                               |
+| MedPrep Program - Experience in Life Sciences                                                       |
+| MedPrep II - Experience in the Life Sciences                                                        |
+| Principles of Biology I                                                                             |
+| Principles of Biology II                                                                            |
+| Laboratory on DNA Manipulation                                                                      |
+| General Biochemistry                                                                                |
+| Sex, Gender and Popular Culture                                                                     |
+| NEH Summer Institute Program Course: The New Negro Renaissance in America, 1919-1941                |
+| Introduction to Environmental Ethics                                                                |
++-----------------------------------------------------------------------------------------------------+
+52 rows in set (0.01 sec)

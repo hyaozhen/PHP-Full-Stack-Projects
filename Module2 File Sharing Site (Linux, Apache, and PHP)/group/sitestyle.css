@@ -1,0 +1,46 @@
+			p.ft1
+		{
+			text-align: center; color: #FAFAD2; font: bold 15px Georgia,serif;
+		}
+			p.ft2
+		{
+			text-align: center; color: #FAF0E6; font:bold 25px Monospace;
+		}
+			p.ft3
+		{
+			text-align: center; color: #FF7F50;
+		}
+			p.ft4
+		{
+			text-align: center;
+		}
+			p.ft5
+		{
+			text-align: left; color: #FF7F50; font: bold 15px Monospace;
+		}		
+			p.ft6
+		{
+			text-align: center; color: #FFD700; font: bold 20px Monospace;
+		}
+			p.ft7
+		{
+			text-align: center; color: #A0522D; font: bold 25px Monospace;
+		}
+		
+			body {
+				background-image: url("bk2.gif");/* https://www.w3schools.com/cssref/pr_background-image.asp */
+				font-family: Georgia;
+			}
+			.center{
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			}
+			#box {/* https://www.w3schools.com/css/css_boxmodel.asp */
+    			width: 300px;
+    			padding: 10px;    
+    			border: 2px solid red;
+    			margin: 0 auto;
+			}
+			
+		
